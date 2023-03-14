@@ -176,7 +176,7 @@ def tx2g(ctx, input, abstraction, force_clear):  # pylint: disable=redefined-bui
 
     if abstraction.lower() == "full":
         if ctx.obj["validate"]:
-            Log.info(
+            click.echo(
                 f"Validate mode: abstraction level is {abstraction.lower()}")
 
             sys.exit()
@@ -189,7 +189,7 @@ def tx2g(ctx, input, abstraction, force_clear):  # pylint: disable=redefined-bui
 
     elif abstraction.lower() == "class":
         if ctx.obj["validate"]:
-            Log.info(
+            click.echo(
                 f"Validate mode: abstraction level is {abstraction.lower()}"
             )
             sys.exit()
@@ -199,7 +199,7 @@ def tx2g(ctx, input, abstraction, force_clear):  # pylint: disable=redefined-bui
 
     elif abstraction.lower() == "method":
         if ctx.obj["validate"]:
-            Log.info(
+            click.echo(
                 f"Validate mode: abstraction level is {abstraction.lower()}"
             )
             sys.exit()
@@ -265,8 +265,8 @@ def c2g(ctx, input, abstraction):  # pylint: disable=redefined-builtin
 
     if abstraction.lower() == "full":
         if ctx.obj["validate"]:
-            Log.info(
-                "Validate mode: abstraction level is {abstraction.lower()}"
+            click.echo(
+                f"Validate mode: abstraction level is {abstraction.lower()}"
             )
             sys.exit()
         Log.info("Full level abstraction adds both Class and Method nodes.")
@@ -275,7 +275,7 @@ def c2g(ctx, input, abstraction):  # pylint: disable=redefined-builtin
 
     elif abstraction.lower() == "class":
         if ctx.obj["validate"]:
-            Log.info(
+            click.echo(
                 f"Validate mode: abstraction level is {abstraction.lower()}"
             )
             sys.exit()
@@ -284,7 +284,7 @@ def c2g(ctx, input, abstraction):  # pylint: disable=redefined-builtin
 
     elif abstraction.lower() == "method":
         if ctx.obj["validate"]:
-            Log.info(
+            click.echo(
                 f"Validate mode: abstraction level is {abstraction.lower()}"
             )
             sys.exit()
