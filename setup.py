@@ -22,7 +22,6 @@ setup(
         "pandas==1.5.3",
         "tqdm==4.65.0",
         "rich==13.3.2",
-        "rich-click==1.6.1",
         "py2neo==2021.2.3",
         "minerva-cargo==1.1.0",
     ],

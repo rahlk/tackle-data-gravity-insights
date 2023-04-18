@@ -24,7 +24,7 @@ import os
 import sys
 from pathlib import Path
 
-import rich_click as click
+import click 
 from neomodel import config
 from simple_ddl_parser import parse_from_file
 
