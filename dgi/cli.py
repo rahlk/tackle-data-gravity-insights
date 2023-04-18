@@ -108,7 +108,7 @@ def s2g(ctx, input, output):  # pylint: disable=redefined-builtin
 
     # Read the DDL file
     input = Path(input)
-    Log.info(f"Reading: {input.absolute()}")
+    click.echo(f"Reading: {input.absolute()}")
     result = None
     try:
         result = parse_from_file(input, group_by_type=True)
@@ -117,22 +117,22 @@ def s2g(ctx, input, output):  # pylint: disable=redefined-builtin
 
     # Optionally write it output to json
     if output:
-        Log.info(f"Writing: {output}")
+        click.echo(f"Writing: {output}")
         with open(output, "w", encoding='utf-8') as file:
             contents = json.dumps(result, indent=4)
             file.write(contents)
 
     if ctx.obj["validate"]:
-        Log.info(f"File [{input}] validated.")
+        click.echo(f"File [{input}] validated.")
         sys.exit(0)
 
     if ctx.obj["clear"]:
         Log.warn("Clear flag is turned ON. Clearing graph.")
         schema_loader.remove_all_nodes()
 
-    Log.info("Building Graph..")
+    click.echo("Building Graph..")
     schema_loader.load_graph(result)
-    Log.info("Graph build complete")
+    click.echo("Graph build complete")
 
 
 ######################################################################
@@ -169,14 +169,14 @@ def tx2g(ctx, input, abstraction, force_clear):  # pylint: disable=redefined-bui
     """Transaction2Graph add edges denoting CRUD operations to the graph."""
 
     if ctx.obj["verbose"]:
-        Log.info("Verbose mode: ON")
+        click.echo("Verbose mode: ON")
 
     class_transaction_loader = ClassTransactionLoader()
     method_transaction_loader = MethodTransactionLoader()
 
     if abstraction.lower() == "full":
         if ctx.obj["validate"]:
-            Log.info(
+            click.echo(
                 f"Validate mode: abstraction level is {abstraction.lower()}")
 
             sys.exit()
@@ -189,7 +189,7 @@ def tx2g(ctx, input, abstraction, force_clear):  # pylint: disable=redefined-bui
 
     elif abstraction.lower() == "class":
         if ctx.obj["validate"]:
-            Log.info(
+            click.echo(
                 f"Validate mode: abstraction level is {abstraction.lower()}"
             )
             sys.exit()
@@ -199,7 +199,7 @@ def tx2g(ctx, input, abstraction, force_clear):  # pylint: disable=redefined-bui
 
     elif abstraction.lower() == "method":
         if ctx.obj["validate"]:
-            Log.info(
+            click.echo(
                 f"Validate mode: abstraction level is {abstraction.lower()}"
             )
             sys.exit()
@@ -213,7 +213,7 @@ def tx2g(ctx, input, abstraction, force_clear):  # pylint: disable=redefined-bui
             "Not a valid abstraction level. Valid options are 'class', 'method', 'full'."
         )
 
-    Log.info("Transactions populated")
+    click.echo("Transactions populated")
 
 
 ######################################################################
@@ -239,10 +239,10 @@ def tx2g(ctx, input, abstraction, force_clear):  # pylint: disable=redefined-bui
 def c2g(ctx, input, abstraction):  # pylint: disable=redefined-builtin
     """Code2Graph add various program dependencies (i.e., call return, heap, and data) into the graph"""
 
-    Log.info("code2graph generator started.")
+    click.echo("code2graph generator started.")
 
     if ctx.obj["verbose"]:
-        Log.info("Verbose mode: ON")
+        click.echo("Verbose mode: ON")
 
     # -------------------------
     # Initialize configurations
@@ -258,37 +258,37 @@ def c2g(ctx, input, abstraction):  # pylint: disable=redefined-builtin
     # Build the graph
     # ---------------
 
-    Log.info("Building Graph.")
+    click.echo("Building Graph.")
 
     class_g_builder = ClassGraphBuilder(usr_cfg)
     method_g_builder = MethodGraphBuilder(usr_cfg)
 
     if abstraction.lower() == "full":
         if ctx.obj["validate"]:
-            Log.info(
-                "Validate mode: abstraction level is {abstraction.lower()}"
+            click.echo(
+                f"Validate mode: abstraction level is {abstraction.lower()}"
             )
             sys.exit()
-        Log.info("Full level abstraction adds both Class and Method nodes.")
+        click.echo("Full level abstraction adds both Class and Method nodes.")
         class_g_builder.build_ddg(clear=ctx.obj["clear"])
         method_g_builder.build_ddg(clear=ctx.obj["clear"])
 
     elif abstraction.lower() == "class":
         if ctx.obj["validate"]:
-            Log.info(
+            click.echo(
                 f"Validate mode: abstraction level is {abstraction.lower()}"
             )
             sys.exit()
-        Log.info("Class level abstraction.")
+        click.echo("Class level abstraction.")
         class_g_builder.build_ddg(clear=ctx.obj["clear"])
 
     elif abstraction.lower() == "method":
         if ctx.obj["validate"]:
-            Log.info(
+            click.echo(
                 f"Validate mode: abstraction level is {abstraction.lower()}"
             )
             sys.exit()
-        Log.info("Method level abstraction.")
+        click.echo("Method level abstraction.")
         method_g_builder.build_ddg(clear=ctx.obj["clear"])
 
     else:
@@ -296,7 +296,7 @@ def c2g(ctx, input, abstraction):  # pylint: disable=redefined-builtin
             "Not a valid abstraction level. Valid options are 'class', 'method', 'full'."
         )
 
-    Log.info("code2graph build complete")
+    click.echo("code2graph build complete")
 
 
 #########################################################################################################
@@ -329,7 +329,7 @@ def c2g(ctx, input, abstraction):  # pylint: disable=redefined-builtin
 @click.pass_context
 def partition(ctx, seed_input, partitions_output, partitions):
     """Partition is a command runs the CARGO algorithm to (re-)partition a monolith into microservices"""
-    Log.info("Partitioning the monolith with CARGO")
+    click.echo("Partitioning the monolith with CARGO")
 
     # Process the bolt url to be used by CARGO
     if "bolt://" in ctx.obj["bolt"]:
